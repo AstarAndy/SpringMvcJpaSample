@@ -27,12 +27,17 @@ ext {
 	springCloudVersion = 'Edgware.SR2'
 }
 
+configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
+}
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-cloud-connectors')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile("org.springframework.boot:spring-boot-starter-undertow")
 	compile('org.springframework.cloud:spring-cloud-starter')
 	runtime('com.h2database:h2')
 	compileOnly('org.projectlombok:lombok')
