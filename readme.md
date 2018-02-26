@@ -45,3 +45,14 @@ To do this you can set an environment variable at the console or in your IDE and
     
 At this point, you can alter your local confiruation so it can be different than your run configuration when you push.  We still haven't 
 created any jpa EntityManagerFactory nor entities.  We'll do that on the next step.  Just be sure your application will start up.
+
+### Create some JPA entities
+
+#### But first
+We're going to start using `Lombock` since we are not creating POJOs  Among other things, `Lombock` will automatically create default constructors, getters and
+setters, and many many other things.  For more information click [here](https://projectlombok.org/)
+
+### Back to JPA.
+
+We'll start with a COMPANY entity which will hold basic information about a company.  No revelations here just check out the [Company](src/com/astar/andy.dao.entities.Company.java) entiry
+
