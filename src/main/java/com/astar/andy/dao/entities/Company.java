@@ -1,4 +1,4 @@
-package com.astar.andy.com.astar.andy.dao.entities;
+package com.astar.andy.dao.entities;
 
 import lombok.Data;
 

@@ -1,5 +1,6 @@
-package com.astar.andy.com.astar.andy.dao.entities;
+package com.astar.andy.dao.entities;
 
+import com.astar.andy.dao.entities.Company;
 import lombok.Data;
 
 import javax.persistence.*;
