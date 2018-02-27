@@ -1,20 +1,27 @@
 package com.astar.andy.dao.entities;
 
 import com.astar.andy.dao.entities.Company;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(exclude = "company")
 @Entity
+@Table(name = "employee")
 public class Employee implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -28,10 +35,10 @@ public class Employee implements Serializable {
     private String directPhone;
 
     @Column
-    private String phone_ext;
+    private String phoneExt;
 
     @Column
-    private String email_address;
+    private String emailAddress;
 
 
 
