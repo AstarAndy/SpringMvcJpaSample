@@ -46,13 +46,42 @@ To do this you can set an environment variable at the console or in your IDE and
 At this point, you can alter your local confiruation so it can be different than your run configuration when you push.  We still haven't 
 created any jpa EntityManagerFactory nor entities.  We'll do that on the next step.  Just be sure your application will start up.
 
+### Using [Lombok](https://projectlombok.org/)
+
+Lombok is a small framework that is used with java to help take the grunt work out of basic java `POJO` development.  By simply including the 
+lombok.jar on your classpath, when you develop a class, by using the `@Data` annotation, Lomboc  will perform a number of _compile time_ operations for you icluding:
+* Automatically generate getters and setters for all your class members.
+* Automatically generate constructors, equalTo, and hashCode methods.
+* There is `considerable` customization available to adjust exactly what, and how, Lombok works.
+
+There is considerably more that [Lombok](https://projectlombok.org/) can do to take a lot of the boilerplate out of your normal source code.  Basically when
+you compie Lombok comes into play and your .class files contain the code needed. 
+
+Since this project does use Lombok you'll see Lomboc-specific annotations on classes.  Just refer to their documntation to see what is happening
+
+
 ### Create some JPA entities
 
-#### But first
-We're going to start using `Lombock` since we are not creating POJOs  Among other things, `Lombock` will automatically create default constructors, getters and
-setters, and many many other things.  For more information click [here](https://projectlombok.org/)
+Our database structure is simple.  We have a parent table called `company` and a child table called `employee`.  This project is also meant
+to illustrate the ability of JPA/Hibernate to support a `OneToMany` relationship, and a `ManyToOne` relationship.  All of this is accomplished by
+using JPA annotations on your entity classes.  An `entity` in JPA is a java object that represents a single table in your database.
 
-### Back to JPA.
+We'll start with a [Company](src/main/java/com/astar/andy/dao/entities/Company.java) entity.  Note the Lombok-based annotations to:
+* Create a non-args constructor and also an all-args constructor.  
+* Also, we're overriding the default `equals and hashcode` method generation and excluding the `employees` list.  This is to avoid a `circular` reference issue
+* If you have a parent->child relationship, and you're defining the parent entiry, then you'll have to code a `@OneToMany` collections.  Here's the code we care about to do that
 
-We'll start with a COMPANY entity which will hold basic information about a company.  No revelations here just check out the [Company](src/com/astar/andy.dao.entities.Company.java) entiry
+    ```java
+    @OneToMany(mappedBy = "company", cascade =  CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+        private Set<Employee> employees = new HashSet<>();
+    ```
+The `mappedBy` field name is the name of the field IN YOUR CHILD object that will hold a reference to the parent.
+
+Next we can look at the [Employee](src/main/java/com/astar/andy/dao/entities/Employee.java) entity.  Again, nothing special here
+except for the Lomboc annotations to avoid a circular reference with the Company.  
+
+
+
+
+
 
