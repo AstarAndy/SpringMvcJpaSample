@@ -49,7 +49,7 @@ created any jpa EntityManagerFactory nor entities.  We'll do that on the next st
 ### Using [Lombok](https://projectlombok.org/)
 
 Lombok is a small framework that is used with java to help take the grunt work out of basic java `POJO` development.  By simply including the 
-lombok.jar on your classpath, when you develop a class, by using the `@Data` annotation, Lomboc  will perform a number of _compile time_ operations for you icluding:
+lombok.jar on your classpath, when you develop a class, by using the `@Data` annotation, Lombok  will perform a number of _compile time_ operations for you including:
 * Automatically generate getters and setters for all your class members.
 * Automatically generate constructors, equalTo, and hashCode methods.
 * There is `considerable` customization available to adjust exactly what, and how, Lombok works.
@@ -57,7 +57,7 @@ lombok.jar on your classpath, when you develop a class, by using the `@Data` ann
 There is considerably more that [Lombok](https://projectlombok.org/) can do to take a lot of the boilerplate out of your normal source code.  Basically when
 you compie Lombok comes into play and your .class files contain the code needed. 
 
-Since this project does use Lombok you'll see Lomboc-specific annotations on classes.  Just refer to their documntation to see what is happening
+Since this project does use Lombok you'll see Lombok-specific annotations on classes.  Just refer to their documentation to see what is happening
 
 
 ### Create some JPA entities
@@ -78,7 +78,30 @@ We'll start with a [Company](src/main/java/com/astar/andy/dao/entities/Company.j
 The `mappedBy` field name is the name of the field IN YOUR CHILD object that will hold a reference to the parent.
 
 Next we can look at the [Employee](src/main/java/com/astar/andy/dao/entities/Employee.java) entity.  Again, nothing special here
-except for the Lomboc annotations to avoid a circular reference with the Company.  
+except for the Lombok annotations to avoid a circular reference with the Company.  
+
+### Wire-in a Spring [JpaRepository](https://docs.spring.io/spring-boot/docs/1.5.10.RELEASE/reference/htmlsingle/#boot-features-spring-data-jpa-repositories)
+
+Per the documentation there are several base Spring repositories you can use. Since this is JPA this project will use the [JpaRepository](https://docs.spring.io/spring-boot/docs/1.5.10.RELEASE/reference/htmlsingle/#boot-features-spring-data-jpa-repositories) which extends Spring's CRUD Repository.
+
+See [CompanyRepository](src/main/java/com/astar/andy/dao/repos/CompanyRepository.java) and [EmployeeRepository](src/main/java/com/astar/andy/dao/repos/EmployeeRepository.java)
+
+Simply by extending the `CrudRepository` interface you now have support performing basic `CRUD` operations against the table the repository supports.
+
+The complete Spring/JPA documentation can be found [here](https://docs.spring.io/spring-data/jpa/docs/1.11.10.RELEASE/reference/html/)
+
+### Finally....draft jUnit tests and perform basic tests of your repository
+
+When testing Spring-Boot apps, you can, and should, create a resources folder under test to hold the configurations you need when testing.  To start with, you can simply copy your [application-local.properties](/src/main/resources/application-local.properties) file to your test/resources folder, and then rename the file to application-test.properties.  Finally, when you want to run you tests, be sure you set SPRING_PROFILES_ACTIVE=local so Spring will
+pick-up your local configs.
+
+This project uses an H2 embedded memory database so we can simply test any the of repository methods available that we would like to.
+
+Have a look at the [dao](src/test/java/com/astar/andy/dao/repos/CompanyRepositoryTest.java) tests.  This is a standard jUnit test.  There are a variety of ways to populate your database; however, in this example, we'll just create, and populate, our entity POJOS and use the repository's `save` method to persist test data.
+
+
+
+
 
 
 

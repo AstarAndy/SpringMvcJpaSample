@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,12 +26,12 @@ public class CompanyRepositoryTest {
     EmployeeRepository emRepo;
 
     @Before
-    //@Transactional
     public void setUp() {
 
         emRepo.deleteAll();
         coRepo.deleteAll();
 
+        // New company, zero employees
         Company thisCompany = new Company();
         thisCompany.setCompanyName("Applied Systems as Technology");
         thisCompany.setStreet1("One Easton Highway");
@@ -42,6 +43,7 @@ public class CompanyRepositoryTest {
         thisCompany.setEmail("DoNotReply@Astar.com");
         coRepo.save(thisCompany);
 
+        // New company, 2 employees
         thisCompany = new Company();
         thisCompany.setCompanyName("Apex Supply Company");
         thisCompany.setStreet1("2398 Laurenceville Highway");
@@ -69,17 +71,48 @@ public class CompanyRepositoryTest {
         thisEmp.setPhoneExt("2488");
         thisEmp.setEmailAddress("Charles.Lenord@ApexSupply.com");
         thisCompany.getEmployees().add(thisEmp);
-
         coRepo.save(thisCompany);
-
+        
+        // New company, 1 employee
+        thisCompany = new Company();
+        thisCompany.setCompanyName("Transaction Processing Specialists");
+        thisCompany.setStreet1("230 Technology Blvd");
+        thisCompany.setCity("Austin");
+        thisCompany.setState("TX");
+        thisCompany.setZip("78701");
+        thisCompany.setPhone("5129742000");
+        thisCompany.setEmail("TransactionProcessingHelp@TPS.com");
+        thisCompany.setEmployees(new HashSet<>());
+        
+        thisEmp = new Employee();
+        thisEmp.setCompany(thisCompany);
+        thisEmp.setLastName("Jason");
+        thisEmp.setFirstName("Kanovlish");
+        thisEmp.setDirectPhone("5129747654");
+        thisEmp.setPhoneExt("7654");
+        thisEmp.setEmailAddress("Jason_Kanovlish@TPS.com");
+        thisCompany.getEmployees().add(thisEmp);
+        coRepo.save(thisCompany);
+        
     }
 
     @Test
-    public void read_company_one_test() {
+    public void read_company_id_4_test() {
 
-        Company thisCompany = coRepo.findOne((long)1);
+    		Company thisCompany = coRepo.findOne((long)4);
         assertThat(thisCompany.getCompanyName()).isEqualToIgnoringCase("Applied Systems as Technology");
+        System.out.println("the Company data is: " + thisCompany.toString());
 
     }
+    
+    @Test
+    public void read_company_by_name_with_two_employees_test() {
 
+		Company thisCompany = coRepo.findByCompanyNameIgnoreCase("Apex Supply Company");
+        assertThat(thisCompany.getCompanyName()).isEqualToIgnoringCase("Apex Supply Company");
+        assertThat(thisCompany.getEmployees().size()).isEqualTo(2);
+        System.out.println("the Company data is: " + thisCompany.toString());
+
+    }
+    
 }
