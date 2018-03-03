@@ -1,0 +1,12 @@
+
+Application Name: SpringMcJpaSampleApplication-Test
+
+ _______
+(_______)              _
+ _         ____   ___ | |_
+| |       / _  ) /___)|  _)
+| |_____ ( (/ / |___ || |__
+ \______) \____)(___/  \___)
+
+
+Spring Boot Version: ${spring-boot.formatted-version}
