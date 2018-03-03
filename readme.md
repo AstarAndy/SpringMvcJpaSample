@@ -99,7 +99,9 @@ This project uses an H2 embedded memory database so we can simply test any the o
 
 Have a look at the [dao](src/test/java/com/astar/andy/dao/repos/CompanyRepositoryTest.java) tests.  This is a standard jUnit test.  There are a variety of ways to populate your database; however, in this example, we'll just create, and populate, our entity POJOS and use the repository's `save` method to persist test data.
 
+### Create a Spring MVC `@Controller`
 
+Let's go ahead and create a simple MVC controller called CustomerController.
 
 
 
