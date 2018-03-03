@@ -99,7 +99,7 @@ public class CompanyRepositoryTest {
     @Test
     public void read_company_id_4_test() {
 
-    		Company thisCompany = coRepo.findOne((long)4);
+        Company thisCompany = coRepo.findOne((long)4);
         assertThat(thisCompany.getCompanyName()).isEqualToIgnoringCase("Applied Systems as Technology");
         System.out.println("the Company data is: " + thisCompany.toString());
 
@@ -114,5 +114,6 @@ public class CompanyRepositoryTest {
         System.out.println("the Company data is: " + thisCompany.toString());
 
     }
+    
     
 }
