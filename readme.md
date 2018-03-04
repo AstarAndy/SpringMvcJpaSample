@@ -101,7 +101,22 @@ Have a look at the [dao](src/test/java/com/astar/andy/dao/repos/CompanyRepositor
 
 ### Create a Spring MVC `@Controller`
 
-Let's go ahead and create a simple MVC controller called CustomerController.
+Let's go ahead and create a simple MVC controller called CustomerController.  A few simple methods were stubbed that 
+all return a null, and then we'll create a test to test each one.
+
+#### A word about using Springs `MockMvc`
+
+You need to import the follow classes when using `MockMvc`
+```java
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+```
+The default spring.io docus do NOT reflect this and there are several `RequestBuilder` classes and you _must_ select the
+correct one or you will not be able to properly build-out your mock call.
+
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 
 

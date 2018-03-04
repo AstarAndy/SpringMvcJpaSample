@@ -1,5 +1,8 @@
 package com.astar.andy.dao.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,8 +28,9 @@ public class Company implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     @Column
-    private Timestamp dateCreated = new Timestamp(System.currentTimeMillis());
+    private Date dateCreated = new Date();
 
     @Column(nullable = false)
     private String companyName;

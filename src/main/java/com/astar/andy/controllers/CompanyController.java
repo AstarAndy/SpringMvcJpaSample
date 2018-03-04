@@ -3,6 +3,7 @@ package com.astar.andy.controllers;
 import com.astar.andy.dao.entities.Company;
 import com.astar.andy.dao.entities.Employee;
 import com.astar.andy.dao.repos.CompanyRepository;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,11 +16,9 @@ import java.util.HashSet;
  * Primary entry point for accessing Company Data
  *
  */
+@Log4j
 @RestController
-@RequestMapping(value = "/v1/company",
-        consumes = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE},
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+@RequestMapping(value = "/v1/company", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CompanyController {
 
     private CompanyRepository coRepo;
@@ -34,7 +33,13 @@ public class CompanyController {
     @ResponseBody
     public ResponseEntity<?> getCompany(@PathVariable Long companyId) {
 
-        return null;
+        Company thisCompany = coRepo.findOne(companyId);
+        if (thisCompany == null) {
+            return new ResponseEntity<String>(String.format("{\"Status\": \"Company %d is not in the system\"}", companyId), HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<Company>(thisCompany, HttpStatus.OK);
+        }
+
 
     }
 
@@ -75,11 +80,18 @@ public class CompanyController {
 
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> addCompany(@RequestBody Company newCompany) {
 
-        return null;
+        log.info(String.format("----Persisting new company: " + newCompany.toString()));
+
+        Company companyAdded = coRepo.save(newCompany);
+        log.info(companyAdded == null ? "---The returned co object is NULL" : "---Ok we saved the new company");
+
+        log.info(String.format("Company Saved.  The id for company %s is ", companyAdded.getCompanyName()));
+
+        return new ResponseEntity<Company>(companyAdded, HttpStatus.OK);
 
     }
 
