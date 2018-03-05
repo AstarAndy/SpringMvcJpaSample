@@ -112,11 +112,26 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 ```
-The default spring.io docus do NOT reflect this and there are several `RequestBuilder` classes and you _must_ select the
+The default spring.io docs do NOT reflect this and there are several `RequestBuilder` classes and you _must_ select the
 correct one or you will not be able to properly build-out your mock call.
 
+## Also Important
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+When performing a POST operation remember, you pass-in json or xml on the call so the object going into the mock will _always_ be different than what you
+use on your `given` statement.  This results the `returns` always being null.  To avoid this use the `any` method as illustrated below:
+
+```java
+        Company createdCompany = new Company();
+        createdCompany.setId((long)99999);
+        createdCompany.setCompanyName("New Test Company");
+
+        // Now specify the mocked return value from the company repo
+        given(coRepo.save(any(Company.class))).willReturn(createdCompany);
+```
+The issue here is the actual object submitted in the `given` clause must be the exact object that is received by the stubbed method, and, because
+we performing a `post`, we're passing in json so, Jackson creates a new object to deseralize the data into.  The key word there is `new` object.  To
+avoid that we use the `any(Company.class)` in the call to given.
+
 
 
 
