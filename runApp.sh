@@ -32,7 +32,7 @@ export SPRING_PROFILES_ACTIVE=$USE_PROFILE
 # Now, either run the app or execute all tests
 
 if [ "$USE_PROFILE" = "test" ]; then
-    ./gradlew test
+    ./gradlew build
 else
     ./gradlew bootRun
 fi
