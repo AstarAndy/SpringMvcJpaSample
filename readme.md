@@ -99,6 +99,38 @@ This project uses an H2 embedded memory database so we can simply test any the o
 
 Have a look at the [dao](src/test/java/com/astar/andy/dao/repos/CompanyRepositoryTest.java) tests.  This is a standard jUnit test.  There are a variety of ways to populate your database; however, in this example, we'll just create, and populate, our entity POJOS and use the repository's `save` method to persist test data.
 
+### Create a Spring MVC `@Controller`
+
+Let's go ahead and create a simple MVC controller called CustomerController.  A few simple methods were stubbed that 
+all return a null, and then we'll create a test to test each one.
+
+#### A word about using Springs `MockMvc`
+
+You need to import the follow classes when using `MockMvc`
+```java
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+```
+The default spring.io docs do NOT reflect this and there are several `RequestBuilder` classes and you _must_ select the
+correct one or you will not be able to properly build-out your mock call.
+
+## Also Important
+
+When performing a POST operation remember, you pass-in json or xml on the call so the object going into the mock will _always_ be different than what you
+use on your `given` statement.  This results the `returns` always being null.  To avoid this use the `any` method as illustrated below:
+
+```java
+        Company createdCompany = new Company();
+        createdCompany.setId((long)99999);
+        createdCompany.setCompanyName("New Test Company");
+
+        // Now specify the mocked return value from the company repo
+        given(coRepo.save(any(Company.class))).willReturn(createdCompany);
+```
+The issue here is the actual object submitted in the `given` clause must be the exact object that is received by the stubbed method, and, because
+we performing a `post`, we're passing in json so, Jackson creates a new object to deseralize the data into.  The key word there is `new` object.  To
+avoid that we use the `any(Company.class)` in the call to given.
 
 
 
