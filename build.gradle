@@ -12,6 +12,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 group = 'com.astar.andy'
@@ -29,6 +30,24 @@ ext {
 
 configurations {
     compile.exclude module: "spring-boot-starter-tomcat"
+}
+
+// This will pretty-up the tests
+test {
+	testLogging {
+		// To also get out the spring output then include "standardOut" & standardError
+		// To just get the name of the test and pass or fail then use the short version
+		//events "passed", "skipped", "failed", "standardOut", "standardError"
+		events "passed", "skipped", "failed"
+	}
+	afterSuite { desc, result ->
+		if (!desc.parent) { // will match the outermost suite
+			def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+			def startItem = '|  ', endItem = '  |'
+			def repeatLength = startItem.length() + output.length() + endItem.length()
+			println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+		}
+	}
 }
 
 dependencies {
