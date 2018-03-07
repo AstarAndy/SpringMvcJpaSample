@@ -8,11 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashSet;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -97,23 +93,36 @@ public class CompanyRepositoryTest {
     }
 
     @Test
-    public void read_company_id_4_test() {
-
-        Company thisCompany = coRepo.findOne((long)4);
-        assertThat(thisCompany.getCompanyName()).isEqualToIgnoringCase("Applied Systems as Technology");
-        System.out.println("the Company data is: " + thisCompany.toString());
-
-    }
-    
-    @Test
     public void read_company_by_name_with_two_employees_test() {
 
 		Company thisCompany = coRepo.findByCompanyNameIgnoreCase("Apex Supply Company");
         assertThat(thisCompany.getCompanyName()).isEqualToIgnoringCase("Apex Supply Company");
         assertThat(thisCompany.getEmployees().size()).isEqualTo(2);
-        System.out.println("the Company data is: " + thisCompany.toString());
 
     }
-    
+
+    @Test
+    public void add_new_company_and_check_id_test() {
+
+        // New company, zero employees
+        Company thisCompany = new Company();
+        thisCompany.setCompanyName("Just an LLC");
+        thisCompany.setStreet1("1435 West Paces Ferry Road");
+        thisCompany.setStreet2("PO Box 25");
+        thisCompany.setCity("Roswell");
+        thisCompany.setState("GA");
+        thisCompany.setZip("30011");
+        thisCompany.setPhone("4049972309");
+        thisCompany.setEmail("DoNotReply@LLC.com");
+
+        Company addedCompany = coRepo.save(thisCompany);
+
+        assertThat(addedCompany).isNotNull();
+        assertThat(addedCompany.getCompanyName()).isEqualToIgnoringCase("Just an LLC");
+        assertThat(addedCompany.getId()).isGreaterThan(0);
+
+
+    }
+
     
 }

@@ -1,6 +1,10 @@
 package com.astar.andy.dao.entities;
 
 import com.astar.andy.dao.entities.Company;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDateTime;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,9 +27,14 @@ public class Employee implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    @Column
+    private Date dateCreated = new Date();
 
     @Column
     private String lastName;
@@ -41,7 +50,5 @@ public class Employee implements Serializable {
 
     @Column
     private String emailAddress;
-
-
 
 }

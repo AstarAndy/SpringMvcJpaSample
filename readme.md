@@ -99,12 +99,75 @@ This project uses an H2 embedded memory database so we can simply test any the o
 
 Have a look at the [dao](src/test/java/com/astar/andy/dao/repos/CompanyRepositoryTest.java) tests.  This is a standard jUnit test.  There are a variety of ways to populate your database; however, in this example, we'll just create, and populate, our entity POJOS and use the repository's `save` method to persist test data.
 
+### Create a Spring MVC `@Controller`
 
+Let's go ahead and create a simple MVC controller called CustomerController.  A few simple methods were stubbed that 
+all return a null, and then we'll create a test to test each one.
 
+#### A word about using Spring's `MockMvc`
 
+You need to import the follow classes when using `MockMvc`
+```java
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+```
+The default spring.io docs do NOT reflect this and there are several `RequestBuilder` classes and you _must_ select the
+correct one or you will not be able to properly build-out your mock call.
 
+## Also Important
 
+When performing a POST operation remember, you pass-in json or xml on the call so the object going into the mock will _always_ be different than what you
+use on your `given` statement.  This results the `returns` always being null.  To avoid this use the `any` method as illustrated below:
 
+```java
+        Company createdCompany = new Company();
+        createdCompany.setId((long)99999);
+        createdCompany.setCompanyName("New Test Company");
 
+        // Now specify the mocked return value from the company repo
+        given(coRepo.save(any(Company.class))).willReturn(createdCompany);
+```
+The issue here is the actual object submitted in the `given` clause must be the exact object that is received by the stubbed method, and, because
+we performing a `post`, we're passing in json so, Jackson creates a new object to deseralize the data into.  The key word there is `new` object.  To
+avoid that we use the `any(Company.class)` in the call to given.
 
+### Command-line support
+Running the application from Eclipse or IJ is simple.  Just create a run config, add an environment or profile in the
+run config to `SPRING_PROFILES_ACTIVE=local` and you'll be able to run the app from within the IDE
 
+But, to perform automated builds; such as with Jenkins or Go, then you must be able to build and test the applicaion
+from the command line.  Since this project uses the gradle plug-in on this project.  You can simply open a terminal
+window, and then cd to the root folder of this project.  At that point you can type in:
+```bash
+./runApp.sh
+```
+This will set the needed environment variable `SPRING_PROFILES_ACTIVE=local` and then execute the gradle
+run task `./gradlew bootRun`
+
+If you want to execute all the tests then just execute
+```bash
+./runApp.sh test
+```
+And all the unit tests will be executed.
+
+## Prettyier test output with gradle
+
+To get nice output to the console when you execute your gradle tests you can add the following
+to your `build.gradle` file
+```json
+test {
+    testLogging {
+        //events "passed", "skipped", "failed", "standardOut", "standardError"
+        events "passed", "skipped", "failed"
+    }
+	afterSuite { desc, result ->
+		if (!desc.parent) { // will match the outermost suite
+			def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+			def startItem = '|  ', endItem = '  |'
+			def repeatLength = startItem.length() + output.length() + endItem.length()
+			println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+		}
+	}    
+}
+```
