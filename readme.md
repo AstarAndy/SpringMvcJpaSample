@@ -155,7 +155,7 @@ And all the unit tests will be executed.
 
 To get nice output to the console when you execute your gradle tests you can add the following
 to your `build.gradle` file
-```json
+```groovy
 test {
     testLogging {
         //events "passed", "skipped", "failed", "standardOut", "standardError"
@@ -171,3 +171,7 @@ test {
 	}    
 }
 ```
+
+## Containeriz this app in a Docker Image
+
+See [readme-docker](readme-docker.md) if you'd like to containerize this application into a `Docker` container
