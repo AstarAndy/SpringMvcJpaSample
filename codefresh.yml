@@ -5,7 +5,10 @@ steps:
   unit-test:
       title: Unit Tests
       image: openjdk:8-jre-alpine
+      working_directory: IMAGE_WORK_DIR
       commands:
+        - ls -al
+        - pwd
         - ./runApp.sh test
 
   build_image:
