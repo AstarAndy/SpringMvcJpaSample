@@ -7,7 +7,7 @@ This is a basic spring traditional mvc app with the following characteristics
 3. Uses `HikariCP` as the pooled connection pool manager and not the default tommycat one
 4. Uses H2 to simplify quickly cloaning and running the app.
 5. Uses Jpa/Hibernate for persistence.
-6. Uses `swagger` for simple interaction with the REST service
+6. Also contains a [Containerizing](readme-docker.md) for directions on how to place the app inside a `Docker Container`
 
 ### Why switch from Tomcat
 
