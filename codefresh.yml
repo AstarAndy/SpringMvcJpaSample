@@ -10,7 +10,8 @@ steps:
         - ls -al
         - pwd
         - gradle -version
-        - ./runApp.sh test
+        - set SPRING_PROFILES_ACTIVE=test
+        - gradle build
 
   build_image:
       title: Building Image
