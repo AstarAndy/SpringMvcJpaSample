@@ -2,19 +2,8 @@ version: '1.0'
 
 steps:
 
-  unit_test:
-      title: Unit Tests
-      image: gradle:latest
-      working_directory: IMAGE_WORK_DIR
-      commands:
-        - ls -al
-        - pwd
-        - gradle -version
-        - set SPRING_PROFILES_ACTIVE=test
-        - gradle build
-
-  build_image:
+    build_image:
       title: Building Image
       type: build
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile_Codefresh.gradle
       image_name: arjfandy/spring-mvc-test-codefresh
