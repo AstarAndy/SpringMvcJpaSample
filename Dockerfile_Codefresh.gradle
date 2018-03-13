@@ -4,6 +4,7 @@ COPY . /app
 WORKDIR /app
 RUN chmod 777 * -R
 RUN ls -l
+RUN PWD
 RUN ./runApp.sh test
 RUN ls -l
 
