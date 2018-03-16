@@ -1,9 +1,0 @@
-version: '1.0'
-
-steps:
-
-    build_image:
-      title: Building Image
-      type: build
-      dockerfile: Dockerfile_Codefresh.gradle
-      image_name: arjfandy/spring-mvc-test-codefresh
