@@ -6,8 +6,6 @@ pipeline {
         stage('Unit Test') {
             steps {
                 echo 'Running gradle clear and test...'
-                sh 'ls -al'
-                sh 'pwd'
                 sh './gradlew --version'
                 sh './gradlew clean'
                 sh './runApp.sh test'
@@ -20,6 +18,8 @@ pipeline {
                 sh './gradlew --version'
                 sh './gradlew clean bootRepackage'
                 sh 'ls -al'
+                echo ' **** The build output folder now contains the following *** '
+                sh 'ls -al ./build/libs/'
             }
         }
 
