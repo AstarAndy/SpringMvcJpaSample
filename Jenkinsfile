@@ -14,7 +14,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build JAR') {
             steps {
                 echo 'Building now'
                 sh './gradlew --version'
@@ -23,7 +23,15 @@ pipeline {
             }
         }
 
-      stage('Deploy') {
+        stage('Build Docker Container') {
+            steps {
+                echo 'Building Docker Container now'
+                sh './buildDockerImage.sh'
+                sh 'ls -al'
+            }
+        }
+
+        stage('Deploying Docker Container') {
         steps {
           echo 'Deploying....'
         }
