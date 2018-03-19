@@ -15,6 +15,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
+archivesBaseName = 'SpringMvcJpaSample'
 group = 'com.astar.andy'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
