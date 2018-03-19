@@ -9,6 +9,8 @@ pipeline {
                 sh './gradlew --version'
                 sh './gradlew clean'
                 sh './runApp.sh test'
+                echo 'Test output to: '
+                sh 'ls -al ./build/test-results/test'
             }
         }
 
@@ -16,7 +18,7 @@ pipeline {
             steps {
                 echo 'Building now'
                 sh './gradlew --version'
-                sh './gradlew clean bootRepackage'
+                sh './gradlew bootRepackage'
                 sh 'ls -al'
                 echo ' **** The build output folder now contains the following *** '
                 sh 'ls -al ./build/libs/'
