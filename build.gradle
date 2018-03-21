@@ -15,6 +15,10 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
+// Without the archivesBaseName set, the name of the jar will
+// default to the root folder name.  This presents problems on
+// the build server so we set it here.
+archivesBaseName = 'SpringMvcJpaSample'
 group = 'com.astar.andy'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
