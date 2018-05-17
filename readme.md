@@ -172,6 +172,11 @@ test {
 }
 ```
 
-## Containeriz this app in a Docker Image
+## Containerize this app in a Docker Image
 
 See [readme-docker](readme-docker.md) if you'd like to containerize this application into a `Docker` container
+
+## Capture logger output using the ELK Stack
+
+See [readme-elk-stack][readme-elk-stack.md] if you'd like to learn how to direct your application, and the container,
+output to an ElasticSearch log repository for viewing in Kibana
