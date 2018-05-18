@@ -89,7 +89,7 @@ public class CompanyController {
         Company companyAdded = coRepo.save(newCompany);
         log.info(companyAdded == null ? "---The returned co object is NULL" : "---Ok we saved the new company");
 
-        log.info(String.format("Company Saved.  The id for company %s is ", companyAdded.getCompanyName()));
+        log.info(String.format("Company Saved.  The id for company %s is %n", companyAdded.getCompanyName(), companyAdded.getId()));
 
         return new ResponseEntity<Company>(companyAdded, HttpStatus.OK);
 
